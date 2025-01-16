@@ -1,33 +1,38 @@
 const express = require('express'); // Import express
+const { connectDB } = require('./config/database'); // Import the database connection
 const app = express(); // Create an express app
 
-// Create a route for the root path (/) that sends a response to the client with the text "Hello World" 
-// app.use('/hello', (req, res) => {
-//     res.send('Bye Bro');
-// })
-// app.use('/hello/2', (req,res) => {
-//     res.send('hellow2');
-// })
-// app.use('/' , (req, res) => {
-//     res.send('Hello World');
-// });
+const { isAuth } = require('./middleware/auth'); // Import the isAuth middleware
+// Dummy authentication middleware
+// app.use('/admin', isAuth)
 
-// app.use('/user', (req, res) => {
-//     res.send('User route is working fine');
-// });
+app.use('/', (err, req, res, next) => {
+    if(err) {
+        res.status(500).send(err.message);
+    }
+})
 
-app.get('/user/:Id/:name/:password', (req, res) => {
-    res.send({name: 'John Doe', age: 25}); 
-    console.log(req.params);
-        
+app.get('/user', (req, res) => {
+    // try {
+    //     throw new Error('User not found');
+    // } catch (error) {
+    //     res.status(404).send(error.message);
+    // }
+    throw new Error('User not found mkc');
 });
 
-app.post('/user', (req, res) => {
-    res.send('User POST route is working fine');
+app.get('/admin/getUsers', isAuth, (req, res) => {
+    res.send('Admin: Here is the list of users');
 });
+
+app.get('/admin/deleteUser', (req, res) => {
+    res.send('Admin: User deleted');
+});
+
 
 
 // Start the server on port 3000 and log a message to the console to indicate that the server is running.
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
+
