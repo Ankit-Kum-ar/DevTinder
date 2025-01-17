@@ -1,25 +1,18 @@
 const express = require('express'); // Import express
 const { connectDB } = require('./config/database'); // Import the database connection
-const app = express(); // Create an express app
 const { User } = require('./models/user'); // Import the user model
 
-app.post('/signup', async (req,res) => {
-    const userObj = {
-        firstName: 'Shiv',
-        lastName: 'Kumar',
-        email: 'shiv@gmail.com',
-        password: '3324',
-        age : 26,
-    }
+const app = express(); // Create an express app
+app.use(express.json()); // Enable express to parse JSON data
 
-    const user = new User(userObj); // Create a new user object with the user data.
+app.post('/signup', async (req,res) => {
+    const user = new User(req.body); // Create a new user object with the JSON data sent in the request body.
     try {
         await user.save(); // Save the user object to the database.
-        res.send('User created successfully'); // Send a success message to the client.
+        res.send('User created successfully');
         } catch (error) {
-        res.status(500).send('Failed to create user'); // Send an error message to the client.
-    }
-
+        res.status(500).send('Failed to create user'); 
+    } 
 })
 
 connectDB().then(() => {
