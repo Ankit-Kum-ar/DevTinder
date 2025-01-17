@@ -5,6 +5,7 @@ const { User } = require('./models/user'); // Import the user model
 const app = express(); // Create an express app
 app.use(express.json()); // Enable express to parse JSON data
 
+// Signup API endpoint to create a new user in the database using a POST request.
 app.post('/signup', async (req,res) => {
     const user = new User(req.body); // Create a new user object with the JSON data sent in the request body.
     try {
@@ -13,6 +14,27 @@ app.post('/signup', async (req,res) => {
         } catch (error) {
         res.status(500).send('Failed to create user'); 
     } 
+})
+
+// User API endpoint to get a user from the database using a GET request.
+app.get('/user', async (req, res) => {
+    const userEmail = req.body.email; // Get the email from the request body
+    try {
+        const users = await User.find({email: userEmail}); // Fetch the users from the database using the email provided.
+        users.length === 0 ? res.status(404).send('User not found') : res.send(users); 
+    } catch (error) {
+        res.status(500).send('Failed to fetch user');
+    }
+})
+
+// Feed API endpoint to get all the users from the database using a GET request.
+app.get('/feed', async (req, res) => {
+    try {
+        const users = await User.find(); // Fetch all the users from the database.
+        res.send(users);
+    } catch (error) {
+        res.status(500).send('Failed to fetch users');
+    }
 })
 
 connectDB().then(() => {
