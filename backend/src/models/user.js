@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 // Create a user schema for the database to store the user data.
 const userSchema = new mongoose.Schema({
@@ -20,11 +21,20 @@ const userSchema = new mongoose.Schema({
         unique: true, // The email should be unique.
         lowercase: true, // The email should be stored in lowercase. 
         trim: true, // The email should not have any leading or trailing spaces.
+        validate(value) {
+            if (!validator.isEmail(value)) { // This check ensures that the email is a valid email address.
+                throw new Error('This is not a valid email address');
+            }
+        }
     },
     password: {
         type: String,
         required: true,
-        minlength: 6, // The password should have a minimum length of 6 characters.
+        validate(value) {
+            if (!validator.isStrongPassword(value)) { // This check ensures that the password is strong.
+                throw new Error('The password is not strong enough');
+            }
+        }
     },
     age: {
         type: Number,
@@ -42,6 +52,11 @@ const userSchema = new mongoose.Schema({
     photoUrl: {
         type: String,
         default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBnqBkkPCNhjTZdcQ6guMnld6S9KxyfhJ6NA&s', // A default value for the photoUrl field if the user does not provide one.
+        validate(value) {
+            if (!validator.isURL(value)) { // This check ensures that the photoUrl is a valid URL.
+                throw new Error('This is not a valid URL' + value);
+            }
+        }
     },
     bio: {
         type: String,
