@@ -37,6 +37,29 @@ app.get('/feed', async (req, res) => {
     }
 })
 
+// Delete API endpoint to delete a user from the database using a DELETE request.
+app.delete('/user', async (req, res) => {
+    const userId = req.body.id; // Get the user ID from the request body.
+    try {
+        await User.findByIdAndDelete(userId); // Find the user by ID and delete it from the database.
+        res.send('User deleted successfully');
+    } catch (error) {
+        res.status(500).send('Failed to delete user');
+    }
+})
+
+// Update API endpoint to update a user in the database using a PATCH request.
+app.patch('/user', async (req, res) => {
+    const userId = req.body.id; // Get the user ID from the request body.
+    const user = req.body; // Get the user object from the request body.
+    try {
+        await User.findByIdAndUpdate(userId, user); // Find the user by ID and update it with the new user object.
+        res.send('User updated successfully');
+    } catch (error) {    
+        res.status(500).send('Failed to update user');
+    }
+})
+
 connectDB().then(() => {
     console.log('Connected to the database');
     app.listen(3000, () => {
