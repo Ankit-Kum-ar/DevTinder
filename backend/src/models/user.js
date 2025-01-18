@@ -54,6 +54,9 @@ const userSchema = new mongoose.Schema({
             if (value.length < 1) { // This check ensures that the user provides at least one skill.
                 throw new Error('Please provide at least one skill');
             }
+            if (value.length > 10) { // This check ensures that the user provides a maximum of 10 skills.
+                throw new Error('You can provide a maximum of 10 skills');
+            }
         },
     },
 },
