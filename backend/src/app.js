@@ -12,7 +12,7 @@ app.post('/signup', async (req,res) => {
         await user.save(); // Save the user object to the database.
         res.send('User created successfully');
         } catch (error) {
-        res.status(500).send('Failed to create user'); 
+        res.status(500).send(error.message); // Send the error message if the user creation fails.
     } 
 })
 
@@ -53,12 +53,14 @@ app.patch('/user', async (req, res) => {
     const userId = req.body.id; // Get the user ID from the request body.
     const user = req.body; // Get the user object from the request body.
     try {
-        await User.findByIdAndUpdate(userId, user); // Find the user by ID and update it with the new user object.
+        await User.findByIdAndUpdate(userId, user, {
+            runValidators: true, // Run the validators to check the updated user object.
+        }); // Find the user by ID and update it with the new user object.
         res.send('User updated successfully');
     } catch (error) {    
-        res.status(500).send('Failed to update user');
+        res.status(500).send(error.message); // Send the error message if the user update fails.
     }
-})
+}) 
 
 connectDB().then(() => {
     console.log('Connected to the database');
