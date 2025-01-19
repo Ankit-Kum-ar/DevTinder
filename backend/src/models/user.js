@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 // Create a user schema for the database to store the user data.
 const userSchema = new mongoose.Schema({
@@ -79,6 +81,12 @@ const userSchema = new mongoose.Schema({
     timestamps: true, // The timestamps option auto-generates the createdAt and updatedAt fields.
 });
 
+userSchema.methods.getJWT = async function () {
+    return await jwt.sign({ _id: this._id }, 'DevTinder@2511', { expiresIn: '7 days' });
+}
+userSchema.methods.passwordMatch = async function (password) {
+    return await bcrypt.compare(password, this.password); // Order of arguments is important.
+}
 // Create a user model using the user schema.
 const User = mongoose.model('User', userSchema);
 
