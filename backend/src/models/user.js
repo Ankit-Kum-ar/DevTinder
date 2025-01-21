@@ -87,6 +87,11 @@ userSchema.methods.getJWT = async function () {
 userSchema.methods.passwordMatch = async function (password) {
     return await bcrypt.compare(password, this.password); // Order of arguments is important.
 }
+userSchema.methods.hashPassword = async function (password) {
+    return await bcrypt.hash(password, 10); // Hash the password using bcrypt with a salt of 10 rounds.
+}
+
+
 // Create a user model using the user schema.
 const User = mongoose.model('User', userSchema);
 

@@ -19,4 +19,15 @@ const validateSignUpData = (req) => {
     }
 }
 
-module.exports = { validateSignUpData }; // Export the validateSignUpData function to be used in other files.
+const validateEditProfileData = (req) => {
+    const ALLOWED_FIELDS = [ 'photoUrl', 'bio', 'skills', 'gender']; // Define the fields that can be updated.
+    
+    // Check if the user object contains only the allowed fields.
+    const isAllowedField = Object.keys(req.body).every((field) => ALLOWED_FIELDS.includes(field));
+
+    if (!isAllowedField) { // If the user object contains any other field, return an error.
+        throw new Error('Invalid fields');
+    }
+}
+
+module.exports = { validateSignUpData, validateEditProfileData }; // Export the validateSignUpData function to be used in other files.
