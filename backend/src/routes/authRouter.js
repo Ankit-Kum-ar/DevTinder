@@ -12,7 +12,7 @@ authRouter.post('/signup', async (req, res) => {
         validateSignUpData(req); // Validate the user data before creating the user.
 
         // 2. Encrypt the password before saving the user.
-        const hashedPassword = await hashPassword(req.body.password); // Hash the password using bcrypt with a salt of 10 rounds.
+        const hashedPassword = await bcrypt.hash(req.body.password, 10); // Hash the password using bcrypt with a salt of 10 rounds.
 
         // 3. Save the user to the database.
         const { firstName, lastName, email, age, skills } = req.body; // Destructure the user data from the request body.

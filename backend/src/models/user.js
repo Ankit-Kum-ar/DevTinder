@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
+        index: true, // The first name should be indexed for faster search queries.
         required: true, // The first name is required.
         minlength: 3, // The first name should have a minimum length of 3 characters.
         maxlength: 50, // The first name should have a maximum length of 50 characters.
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // The email should be unique.
+        unique: true, // The email should be unique. Unique automatically creates an index on the email field.
         lowercase: true, // The email should be stored in lowercase. 
         trim: true, // The email should not have any leading or trailing spaces.
         validate(value) {
@@ -80,6 +81,8 @@ const userSchema = new mongoose.Schema({
 {
     timestamps: true, // The timestamps option auto-generates the createdAt and updatedAt fields.
 });
+
+userSchema.index({ firstName: 1, lastName: 1 }); // Create a compound index on the firstName and lastName fields.
 
 userSchema.methods.getJWT = async function () {
     return await jwt.sign({ _id: this._id }, 'DevTinder@2511', { expiresIn: '7 days' });
