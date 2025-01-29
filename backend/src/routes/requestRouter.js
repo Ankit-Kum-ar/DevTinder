@@ -68,4 +68,53 @@ requestRouter.post('/request/send/:status/:toUserId', userAuth, async (req, res)
     }
 })
 
+// Request API endpoint to get all requests of the user using a GET request.
+requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, res) => {
+    try {
+
+        const loggedInUser = req.user; // Get the logged in user from the request object.
+
+        // status is the status of the request ("accepted", "rejected").
+        const status = req.params?.status; // Get the status from the request parameters.
+        const ALLOWED_FIELDS = ["accepted", "rejected"];
+        if ( !ALLOWED_FIELDS.includes(status) ) {
+            throw new Error('Invalid Status');
+        }
+
+
+        // Check the requestId present in our database and the person who is loggedIn is the same person who is requested. Also, the status should be interested.
+        const requestId = req.params?.requestId; // Get the request ID from the request parameters.
+        const request = await ConnectionRequest.findOne({ _id: requestId, toUserId: loggedInUser._id, status: 'interested' }); // Find the request by ID in the database.
+        if ( !request ) {
+            return res.status(404).json({
+                message: "Request is not existed"
+            });
+        }
+
+        // Update the request status in the database.
+        request.status = status; // Set the status of the request to the new status.
+        await request.save(); // Save the request object to the database.
+
+        // Send response for both accepted and rejected status using dynamic message with usernames.
+        if(status === 'accepted') {
+            return res.status(200).json({
+                message: `Request accepted from ${request.firstName}`
+            });
+        } else {
+            return res.status(200).json({
+                message: `Request rejected from ${request.firstName}`
+            });
+        }
+
+        // A sends request to B, so B can accept or reject the request.
+        // So, B should be loggedIn to use this API.
+
+        // The status should be interested to use this API.
+        
+    } catch (error) {
+        res.status(500).send('Failed to review request, Error: ' + error.message); // Send an error message if the request fails.
+        
+    }
+})
+
 module.exports = requestRouter; // Export the request router.
