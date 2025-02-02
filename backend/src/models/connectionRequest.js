@@ -7,12 +7,12 @@ const connectionRequestSchema = new moongose.Schema({
     fromUserId: {
         type: moongose.Schema.Types.ObjectId, // Set the data type of the field.
         required: true, // Set the field as required.
-        // ref: 'User' // Set the reference to the User model.
+        ref: 'User' // Set the reference to the User model.
     },
     toUserId: {
         type: moongose.Schema.Types.ObjectId, // Set the data type of the field.
         required: true, // Set the field as required.
-        // ref: 'User' // Set the reference to the User model.
+        ref: 'User' // Set the reference to the User model.  
     },
     status: {
         type: String,

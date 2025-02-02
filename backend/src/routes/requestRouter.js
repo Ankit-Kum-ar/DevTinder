@@ -98,11 +98,11 @@ requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, r
         // Send response for both accepted and rejected status using dynamic message with usernames.
         if(status === 'accepted') {
             return res.status(200).json({
-                message: `Request accepted from ${request.firstName}`
+                message: `Request accepted from ${loggedInUser.firstName}`
             });
         } else {
             return res.status(200).json({
-                message: `Request rejected from ${request.firstName}`
+                message: `Request rejected from ${loggedInUser.firstName}`
             });
         }
 

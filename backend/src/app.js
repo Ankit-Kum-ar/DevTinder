@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser'); // Import the cookie-parser packa
 const authRouter = require('./routes/authRouter'); // Import the authRouter
 const profileRouter = require('./routes/profileRouter'); // Import the profileRouter
 const requestRouter = require('./routes/requestRouter'); // Import the requestRouter
+const userRouter = require('./routes/uesrRouter');
 
 const app = express(); // Create an express app
 app.use(express.json()); // Enable express to parse JSON data
@@ -12,6 +13,7 @@ app.use(cookieParser()); // Enable express to parse cookies
 app.use('/', authRouter); // Use the authRouter for the / route
 app.use('/', profileRouter); // Use the profileRouter for the / route
 app.use('/', requestRouter); // Use the requestRouter for the / route
+app.use('/', userRouter); // Use the userRouter for the / route
 
 // User API endpoint to get a user from the database using a GET request.
 // app.get('/user', userAuth, async (req, res) => {
