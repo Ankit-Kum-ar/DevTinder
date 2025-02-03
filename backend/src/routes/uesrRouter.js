@@ -70,6 +70,13 @@ userRouter.get('/feed', userAuth, async (req, res) => {
 
         const loggedInUser = req.user; // Get the logged-in user from the request object.
 
+        // Pagination using page,limit and skip query parameters.
+        const page = parseInt(req.query.page) || 1; // Page number.
+        let limit = parseInt(req.query.limit) || 10; // Number of users to fetch.
+        limit = limit > 50 ? 50 : limit; // Limit the number of users to fetch to 50.
+
+        const skip = (page - 1) * limit; // Number of users to skip.        
+
         // Fetch the users who have sent requests to the logged-in user.
         const requestsReceived = await ConnectionRequest.find({
             toUserId: loggedInUser._id
@@ -117,7 +124,7 @@ userRouter.get('/feed', userAuth, async (req, res) => {
             _id: {
                 $nin: [loggedInUser._id, ...requestsReceivedIds, ...connectionsIds, ...ignoredUsersIds, ...interestedRequestsIds] // $nin is used to exclude the ids of the logged-in user, users who have sent requests to the logged-in user, users with whom the logged-in user is connected, and users who already ignored the logged-in user.
             }
-        }).select('firstName lastName age photoUrl skills bio');
+        }).select('firstName lastName age photoUrl skills bio').limit(limit).skip(skip); // Select the firstName, lastName, age, photoUrl, skills, and bio of the users.    
 
         // Send the users as a response.
         res.send(users);
