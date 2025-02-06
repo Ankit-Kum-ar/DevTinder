@@ -5,10 +5,16 @@ const authRouter = require('./routes/authRouter'); // Import the authRouter
 const profileRouter = require('./routes/profileRouter'); // Import the profileRouter
 const requestRouter = require('./routes/requestRouter'); // Import the requestRouter
 const userRouter = require('./routes/uesrRouter');
+const cors = require('cors');
 
 const app = express(); // Create an express app
+
 app.use(express.json()); // Enable express to parse JSON data
 app.use(cookieParser()); // Enable express to parse cookies
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow the frontend to access this server.
+    credentials: true, // Enable credentials means that the server will accept requests with cookies.
+})); // Enable CORS for all routes
 
 app.use('/', authRouter); // Use the authRouter for the / route
 app.use('/', profileRouter); // Use the profileRouter for the / route
