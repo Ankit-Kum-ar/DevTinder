@@ -9,6 +9,7 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("sahil@gmail.com");
   const [password, setPassword] = useState("Sahil@123");
+  const [error, setError] = useState("");
 
   // Function to toggle password visibility.
   const togglePasswordVisibility = () => {
@@ -33,6 +34,7 @@ const Login = () => {
       navigate("/feed"); // Navigate to the home page after successful login.
     } catch (error) {
       console.error("Login failed", error);
+      setError(error.response?.data || "Invalid Credentials"); // Set the error message received from the server.
     }
   }
 
@@ -78,6 +80,7 @@ const Login = () => {
                   </button>
               </label>
             </div>
+            <p className="text-red-500 text-sm">{error}</p>
             <div className="card-actions justify-end">
               <button className="btn btn-primary w-full" onClick={handleLogin}>Login</button>
             </div>

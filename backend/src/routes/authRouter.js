@@ -56,7 +56,7 @@ authRouter.post('/login', async (req, res) => {
         res.cookie('token', token,); // Set a cookie with the token value.
         res.send(user); // Send the user object in the response.
     } catch (error) {
-        res.status(500).send('Failed to authenticate user, Error: ' + error.message); // Send an error message if the user authentication fails.
+        res.status(500).send(error.message); // Send an error message if the user authentication fails.
     }
 })
 

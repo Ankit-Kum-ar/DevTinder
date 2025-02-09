@@ -1,11 +1,24 @@
-import { useSelector } from "react-redux"
-import { DEFAULT_PROFILE_PIC } from "../utils/constant";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import { BASE_URL, DEFAULT_PROFILE_PIC } from "../utils/constant";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { removeUser } from "../Redux/Slices/userSlice";
 
 const Navbar = () => {    
 
-    const user = useSelector((store) => store.user);
-    // console.log(user);
+    const user = useSelector((store) => store.user); // Selector to get the user data from the Redux store.
+    const dispatch = useDispatch(); // Dispatch function to dispatch actions to the Redux store.
+    const navigate = useNavigate(); // Navigate function to navigate to different pages.
+
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${BASE_URL}/logout`, { withCredentials: true });
+            dispatch(removeUser());
+            navigate("/");
+        } catch (error) {
+            console.error("Failed to logout", error);   
+        }   
+    }
 
     // If user is not logged in, return the following JSX.
     if (!user) {
@@ -24,7 +37,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-300">
             <div className="flex-1">
-                <Link to="/" className="btn btn-ghost text-xl">
+                <Link to="/feed" className="btn btn-ghost text-xl">
                     <img src="/logo.jpg" className="w-6 rounded-3xl"/>
                     DevTinder
                 </Link>
@@ -53,7 +66,7 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
+                    <li><a onClick={handleLogout}>Logout</a></li>
                 </ul>
                 </div>
             </div>
