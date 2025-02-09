@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl: {
         type: String,
-        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBnqBkkPCNhjTZdcQ6guMnld6S9KxyfhJ6NA&s', // A default value for the photoUrl field if the user does not provide one.
+        default: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg', // A default value for the photoUrl field if the user does not provide one.
         validate(value) {
             if (!validator.isURL(value)) { // This check ensures that the photoUrl is a valid URL.
                 throw new Error('This is not a valid URL' + value);

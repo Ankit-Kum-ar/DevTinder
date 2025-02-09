@@ -13,7 +13,7 @@ app.use(express.json()); // Enable express to parse JSON data
 app.use(cookieParser()); // Enable express to parse cookies
 app.use(cors({
     origin: 'http://localhost:5173', // Allow the frontend to access this server.
-    credentials: true, // Enable credentials means that the server will accept requests with cookies.
+    credentials: true, // Enable credentials to allow cookies from the frontend to be sent to the server.
 })); // Enable CORS for all routes
 
 app.use('/', authRouter); // Use the authRouter for the / route
