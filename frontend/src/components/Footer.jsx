@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="footer bg-accent-content text-neutral-content items-center p-4 fixed bottom-0 w-full">
+    <footer className="footer bg-accent-content text-neutral-content items-center p-4 bottom-0 w-full">
         <aside className="grid-flow-col items-center">
             <img src="/logo.jpg" alt="logo" className="w-7 h-7 rounded-3xl" />
             <p>Copyright © {new Date().getFullYear()} - All right reserved</p>

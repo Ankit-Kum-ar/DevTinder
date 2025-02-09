@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux"
+import { DEFAULT_PROFILE_PIC } from "../utils/constant";
 
 const Navbar = () => {    
 
     const user = useSelector((store) => store.user);
-    console.log(user);
+    // console.log(user);
 
     // If user is not logged in, return the following JSX.
     if (!user) {
@@ -14,10 +15,6 @@ const Navbar = () => {
                         <img src="/logo.jpg" className="w-6 rounded-3xl"/>
                         DevTinder
                     </a>
-                </div>
-                <div className="flex-none gap-2">
-                    <a href="/login" className="btn btn-ghost">Login</a>
-                    <a href="/signup" className="btn btn-ghost">Signup</a>
                 </div>
             </div>
         )
@@ -36,9 +33,13 @@ const Navbar = () => {
             <div className="dropdown dropdown-end mx-3"> 
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                     <div className="w-10 rounded-full">
-                        <img
-                        alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        {
+                            user.photoUrl ? (
+                                <img src={user.photoUrl} className="rounded-full w-10"/>
+                            ) : (
+                                <img src={DEFAULT_PROFILE_PIC} className="rounded-full w-10"/>
+                            )
+                        }
                     </div>
                 </div>
                 <ul

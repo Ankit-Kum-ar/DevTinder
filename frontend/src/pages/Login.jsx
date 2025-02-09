@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useDispatch } from 'react-redux';
 import { addUser } from '../Redux/Slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../utils/constant';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,21 +24,21 @@ const Login = () => {
   const handleLogin = async () => {
     // Implement login functionality here.
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await axios.post(`${BASE_URL}/login`, {
         email,
         password,
       }, { withCredentials: true }); // Send the cookies along with the request. This is important for authentication.
       console.log("Login successful", response.data);
       dispatch(addUser(response.data)); // Dispatch the user data to the store.
-      navigate("/"); // Navigate to the home page after successful login.
+      navigate("/feed"); // Navigate to the home page after successful login.
     } catch (error) {
       console.error("Login failed", error);
     }
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="card md:w-96 bg-base-300 shadow-xl mt-20 mb-20">
+    <div className="flex justify-center min-h-screen items-center">
+      <div className="card md:w-96 bg-base-300 shadow-xl">
         <div className="card-body flex-col space-y-3">
             <h2 className="card-title">Login!</h2>
             <div className="items-center space-y-2">
