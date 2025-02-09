@@ -8,7 +8,7 @@ const userAuth = async (req, res, next) => {
 
         // If the token is not found, return an error.
         if (!token) {
-            throw new Error('Token not found');
+            return res.status(401).send('Error: Please Login');
         }
 
         // Verify the token using the secret key.
@@ -28,7 +28,7 @@ const userAuth = async (req, res, next) => {
         next(); // Call the next middleware.
 
     } catch (error) {
-        res.status(400).send('Error: Please authenticate');
+        res.status(400).send('Error: Please authenticate, '+ error.message); // Send an error message if authentication fails.
     }
 }
 
