@@ -12,8 +12,8 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post(`${BASE_URL}/logout`, { withCredentials: true });
-            dispatch(removeUser());
+            await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true }); // Send the cookies along with the request. This is important for authentication.
+            dispatch(removeUser()); 
             navigate("/");
         } catch (error) {
             console.error("Failed to logout", error);   
