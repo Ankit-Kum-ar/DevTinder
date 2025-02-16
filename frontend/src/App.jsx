@@ -22,7 +22,7 @@ function App() {
   const viewUser = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/profile/view`, { withCredentials: true });
-      console.log("User data", response.data);
+      // console.log("User data", response.data);
       dispatch(addUser(response.data));
       navigate("/feed");
     } catch (error) {

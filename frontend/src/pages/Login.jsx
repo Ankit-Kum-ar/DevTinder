@@ -7,8 +7,8 @@ import { BASE_URL } from '../utils/constant';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState("sahil@gmail.com");
-  const [password, setPassword] = useState("Sahil@123");
+  const [email, setEmail] = useState("elon@gmail.com");
+  const [password, setPassword] = useState("Elon@123");
   const [error, setError] = useState("");
 
   // Function to toggle password visibility.
@@ -29,7 +29,7 @@ const Login = () => {
         email,
         password,
       }, { withCredentials: true }); // Send the cookies along with the request. This is important for authentication.
-      console.log("Login successful", response.data);
+      // console.log("Login successful", response.data);
       dispatch(addUser(response.data)); // Dispatch the user data to the store.
       navigate("/feed"); // Navigate to the home page after successful login.
     } catch (error) {

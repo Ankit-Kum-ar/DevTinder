@@ -30,7 +30,7 @@ const Signup = () => {
         age,
         skills: skills.split(',').map(skill => skill.trim()), // Convert skills string to an array
       }, { withCredentials: true });
-      console.log("Signup successful", response.data);
+      // console.log("Signup successful", response.data);
       dispatch(addUser(response.data));
       navigate("/feed");
     } catch (error) {
