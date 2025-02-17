@@ -14,12 +14,15 @@ const EditProfile = ({ user }) => {
     const [lastName, setLastName] = useState(user?.lastName || ''); // Set the initial value of the last name to the user's last name.
     const [age, setAge] = useState(user?.age || ''); // Set the initial value of the age to the user's age.
     const dispatch = useDispatch();
+    const [error, setError] = useState('');
+    const [showToast, setShowToast] = useState(false);
 
     const handleSkillsChange = (e) => {
         setSkills(e.target.value.split(',').map((skill) => skill.trim())); // Split the input by comma and trim the spaces.
     };
 
     const saveEditProfile = async (e) => {
+        setError('');
         e.preventDefault();
         try {
             let photoUrl = profilePicture;
@@ -29,10 +32,15 @@ const EditProfile = ({ user }) => {
                 skills,
                 gender,
             }, { withCredentials: true });
-            console.log(response.data);
-            // dispatch(addUser(response.data)); // Dispatch the updated user data to the store.
+            // console.log(response.data);
+            dispatch(addUser(response.data?.data)); // Dispatch the updated user data to the store.
+            setShowToast(true);
+
+            setTimeout(() => {
+                setShowToast(false);
+            }, 3000);
         } catch (error) {
-            console.error(error.response?.data || error.message);
+            setError(error.response.data);
         }
     };
 
@@ -93,10 +101,18 @@ const EditProfile = ({ user }) => {
                             onChange={handleSkillsChange}
                         />
                     </div>
+                    <p className='text-red-600'>{error}</p>
                     <button type="submit" className="btn btn-primary w-full">Save Changes</button>
                 </form>
             </div>
             <UserCard post={ { gender, photoUrl: profilePicture, age, bio, skills, firstName, lastName } } />
+            {showToast && (
+                <div className="toast toast-top toast-center">
+                    <div className="alert alert-success">
+                        <span>Profile Updated Successfully</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
