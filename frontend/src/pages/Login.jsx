@@ -7,8 +7,8 @@ import { BASE_URL } from '../utils/constant';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState("elon@gmail.com");
-  const [password, setPassword] = useState("Elon@123");
+  const [email, setEmail] = useState("ransingh@gmail.com");
+  const [password, setPassword] = useState("Ranjan@123");
   const [error, setError] = useState("");
 
   // Function to toggle password visibility.

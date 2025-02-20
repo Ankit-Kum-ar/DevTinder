@@ -3,6 +3,7 @@ import { BASE_URL, DEFAULT_PROFILE_PIC } from "../utils/constant";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { removeUser } from "../Redux/Slices/userSlice";
+import { GitPullRequest, LogOut, User, Waypoints } from "lucide-react";
 
 const Navbar = () => {    
 
@@ -60,13 +61,35 @@ const Navbar = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li>
-                        <Link to="/profile" className="justify-between">
-                            Profile
-                            <span className="badge">New</span>
+                        <Link to="/profile">
+                            <div className="flex items-center gap-2">
+                                <User size={20}/>
+                                Profile
+                            </div>
                         </Link>
                     </li>
-                    <li><a>Settings</a></li>
-                    <li><a onClick={handleLogout}>Logout</a></li>
+                    <li>
+                        <Link to="/connections" >
+                            <div className="flex items-center gap-2">
+                                <Waypoints size={20}/>
+                                Connections
+                            </div>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/requests">
+                            <div className="flex items-center gap-2">
+                                <GitPullRequest size={20}/>
+                                Requests
+                            </div>
+                        </Link>
+                    </li>
+                    <li><a onClick={handleLogout}>
+                        <div className="flex items-center gap-2">
+                            <LogOut size={20}/>
+                            Logout
+                        </div>
+                    </a></li>
                 </ul>
                 </div>
             </div>

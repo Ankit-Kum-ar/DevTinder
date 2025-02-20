@@ -11,6 +11,8 @@ import { BASE_URL } from "./utils/constant"
 import { useDispatch, useSelector } from "react-redux"
 import { addUser } from "./Redux/Slices/userSlice"
 import Profile from "./pages/Profile"
+import Connections from "./pages/Connections"
+import Requests from "./pages/Requests"
 
 function App() {
 
@@ -50,6 +52,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/feed" element= {<Feed />} />
+        <Route path="/connections" element={<Connections/>} />
+        <Route path="/requests" element={<Requests/>} />
       </Routes>
       <Footer />
     </>
